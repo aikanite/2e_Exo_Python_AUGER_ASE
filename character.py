@@ -15,7 +15,7 @@ class CharacterError(Exception):
 
 
 class Character:
-    """To implement"""
+    """A class representing a character with a name, life, attack, and defense attributes."""
 
 
     def __init__(self, _name : str, _life : float, _attack :float, _defense : float):
@@ -24,13 +24,13 @@ class Character:
         self._attack = _attack
         self._defense = _defense
     
-    
+    #Sets the life of the character :
     def take_damages(self, damages_value : float):
         final_damage = damages_value - damages_value * self._defense
         self._life = self._life - final_damage
         return f"You dealt {final_damage} damages"
     
-
+    #Sets up an attack from the character :
     def attack(self,target: "Character"):
         damages = self._attack
         target.take_damages(damages)
@@ -54,21 +54,11 @@ class Character:
     def default(cls,new_name : str):  
         return cls(new_name, default_life, default_attack, default_defense)
 
-    
-#Tests 
-#Kevin = Character("Kevin",100,10,0.1)
-#Kevin2 = Character("Kevin2",100,10,0.1)
-#Kevin.take_damages(1000)
-#Kevin.attack(Kevin2)
-#print(Kevin)
-#print(Kevin2)
-#print(Kevin.is_dead)
-#print(Kevin2.is_dead)
 
 
 
 class Weapon:
-    """To implement"""
+    """A class representing a weapon with a name and attack damage."""
 
     name = " "
 
@@ -86,7 +76,7 @@ class Weapon:
 
     
 class Warrior(Character):
-    """To implement"""
+    """A class representing a warrior character with a name, weapon, and attributes."""
 
     def __init__(self,_name : str, weapon : Weapon):
         self._name = _name
@@ -96,6 +86,7 @@ class Warrior(Character):
         self._attack = default_attack
         self._defense = 1.2 * default_defense
     
+    #Sets up an attack from the warrior character :
     def attack(self, target : Character):
         
         total_damage = self._attack + self.weapon.attack
@@ -115,7 +106,7 @@ class Warrior(Character):
 
 
 class Magician(Character):
-    """To implement"""
+    """A class representing a magician character with a name and attributes."""
 
     def __init__(self,_name :str):
         self._name = _name
@@ -125,6 +116,7 @@ class Magician(Character):
         self._defense = default_defense
         self.Attack_received_count=0
     
+    #Chance of casting the shield (1/3) :
     def _activate_magical_shield(self):
         hope = random.randint(1,3)
         if hope == 1:
@@ -132,18 +124,22 @@ class Magician(Character):
         else :
             return False
     
+    #Sets up the damage taking of the magician character :
     def take_damages(self, damages_value : float):
         self.Attack_received_count += 1
 
         final_damage = damages_value - damages_value * self._defense
         self._life = self._life - final_damage
         
+        #If the magician has received 3 attacks, he can counter-attack :
         if self.Attack_received_count == 3:
             self.Attack_received_count = 0
+
             if self._activate_magical_shield():
                 return "The attack was countered"
             else :
                return f"You dealt {final_damage} damages" 
+            
         else : 
             
             return f"You dealt {final_damage} damages"
