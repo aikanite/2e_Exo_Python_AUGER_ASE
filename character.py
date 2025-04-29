@@ -60,18 +60,21 @@ class Character:
 class Weapon:
     """A class representing a weapon with a name and attack damage."""
 
-    name = " "
 
     def __init__(self, _name : str, attack : float):
         self._name = _name
         self.attack = attack
-        self.name = self._name
     
 
     #Creates a default weapon named 'Wood stick' with 1 attack damage :
     @classmethod
     def default(cls):  
         return cls("Wood stick", 1)
+    
+    #Returns the name of the character :
+    @property
+    def name(self):
+        return self._name
     
 
     
